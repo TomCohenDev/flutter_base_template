@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "755195260811",
+    "project_id": "tomcohendev-portfolio",
+    "storage_bucket": "tomcohendev-portfolio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:755195260811:android:3441884d83e858c087098e",
+        "android_client_info": {
+          "package_name": "dev.tomcohen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqQfRWTTCwCmDv1RhEJ1twrNAAI5c7z8o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

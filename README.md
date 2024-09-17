@@ -11,21 +11,20 @@ flutter pub outdated --mode=null-safety
 // Download all new versions of the packages
 dart pub get
 
-
 insalled fvm
-windows 
+windows
 choco install fvm
-
 
 mac
 brew tap leoafarias/fvm
 brew install fvm
 
-
 install fireabse command line tool
 win/mac
 npm install -g firebase-tools
 
+dart pub global activate flutterfire_cli
+flutterfire configure
 
-
- 
+flutter pub get
+flutter pub run flutter_launcher_icons

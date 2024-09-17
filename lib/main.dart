@@ -1,26 +1,46 @@
-import 'dart:io';
+import 'package:flutter_app/indexes/indexes_core.dart';
+import 'package:flutter_app/indexes/indexes_packages.dart';
+import 'package:flutter_app/indexes/indexes_services.dart';
 
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+final GetIt getIt = GetIt.instance;
+// ===== UNCOMMENT THIS LINE =====
+// late FirebaseAnalytics analytics;
+// ===== UNCOMMENT THIS LINE =====
+// late FirebaseAnalytics analytics;
+String sessionId = "unset";
 
-void main() {
-  runApp(const MainApp());
+void setupLocator() {
+  // getIt.registerLazySingleton<HandshakeBloc>(() => HandshakeBloc(
+  //       handshakeRepository: getIt<HandshakeRepository>(),
+  //     ));
+
+  // getIt.registerLazySingleton<UserRepository>(() => UserRepository());
+  // getIt.registerLazySingleton<AuthRepository>(
+  //     () => AuthRepository(userRepository: getIt<UserRepository>()));
+
+  // getIt.registerLazySingleton<AuthBloc>(() => AuthBloc(
+  //       authRepository: getIt<AuthRepository>(),
+  //       userRepository: getIt<UserRepository>(),
+  //     ));
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Column(
-            children: [],
-          ),
-        ),
-      ),
-    );
-  }
+  // ===== UNCOMMENT THIS LINE =====
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // ===== UNCOMMENT THIS LINE =====
+  //   analytics = FirebaseAnalytics.instance;
+  // await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  // FlutterError.onError = (errorDetails) {
+  //   FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  // };
+  // PlatformDispatcher.instance.onError = (error, stack) {
+  //   FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+  //   return true;
+  // };
+  setupLocator();
+  await GetStorage.init();
+
+  runApp(const MainApp());
 }
