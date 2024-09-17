@@ -7,18 +7,53 @@ environment:
   sdk: ">=3.4.3 <4.0.0"
 
 dependencies:
+  # flutter adk
   flutter:
     sdk: flutter
+
+  # file pickers
   file_picker:
   image_picker:
+  flutter_launcher_icons:
+  equatable:
+  flutter_svg:
+  font_awesome_flutter:
+  google_fonts:
+  url_launcher:
+  get_storage:
+  email_validator:
+  permission_handler:
+  path:
+  path_provider:
+  connectivity_plus:
+  flutter_bloc:
+  go_router:
+  get_it:
+
+  firebase_crashlytics:
+  cloud_firestore:
+  firebase_core:
+  firebase_storage:
+  firebase_auth:
+  firebase_messaging:
+  firebase_analytics:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
 
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/icon/launcher_icon.png"
+  adaptive_icon_background: "assets/icon/launcher_icon_background.png"
+  adaptive_icon_foreground: "assets/icon/launcher_icon_foreground.png"
+
 flutter:
   uses-material-design: true
 
   assets:
     - assets/
+    - assets/icons/

@@ -13,18 +13,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Scaffold(
         body: Center(
           child: Column(
-            children: [
-              MaterialButton(
-                  onPressed: () {
-                    ImagePicker().pickImage(source: ImageSource.camera);
-                    FilePicker.platform.pickFiles();
-                  },
-                  child: const Text('Click Me!'))
-            ],
+            children: [],
           ),
         ),
       ),
