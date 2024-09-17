@@ -1,18 +1,31 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() {
-  runApp(const PortfolioApp());
+  runApp(const MainApp());
 }
 
-class PortfolioApp extends StatelessWidget {
-  const PortfolioApp({super.key});
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text('Hello World!'),
+          child: Column(
+            children: [
+              MaterialButton(
+                  onPressed: () {
+                    ImagePicker().pickImage(source: ImageSource.camera);
+                    FilePicker.platform.pickFiles();
+                  },
+                  child: const Text('Click Me!'))
+            ],
+          ),
         ),
       ),
     );
