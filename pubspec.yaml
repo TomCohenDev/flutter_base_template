@@ -37,6 +37,7 @@ dependencies:
   firebase_auth:
   firebase_messaging:
   firebase_analytics:
+  package_info_plus: ^8.0.2
 
 dev_dependencies:
   flutter_test:

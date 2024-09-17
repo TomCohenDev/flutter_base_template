@@ -8,6 +8,7 @@ final GetIt getIt = GetIt.instance;
 // ===== UNCOMMENT THIS LINE =====
 // late FirebaseAnalytics analytics;
 String sessionId = "unset";
+bool devMode = true;
 
 void setupLocator() {
   // getIt.registerLazySingleton<HandshakeBloc>(() => HandshakeBloc(
