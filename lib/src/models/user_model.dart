@@ -1,48 +1,26 @@
-import 'package:flutter_app/indexes/indexes_packages.dart';
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
+import 'package:flutter_app/src/models/serializers.dart';
 
-class UserModel extends Equatable {
-  final String? uid;
-  final String? email;
-  final DateTime? createdTime;
-  const UserModel({
-    this.uid,
-    this.email,
-    this.createdTime,
-  });
+part 'user_model.g.dart';
 
-  UserModel copyWith({
-    String? uid,
-    String? email,
-    DateTime? createdTime,
-  }) {
-    return UserModel(
-      uid: uid ?? this.uid,
-      email: email ?? this.email,
-      createdTime: createdTime ?? this.createdTime,
-    );
+abstract class UserModel implements Built<UserModel, UserModelBuilder> {
+  String get uid;
+  String? get email;
+  DateTime? get createdTime;
+
+  UserModel._();
+
+  factory UserModel([void Function(UserModelBuilder) updates]) = _$UserModel;
+
+  Map<String, dynamic> toJson() {
+    return serializers.serializeWith(UserModel.serializer, this)
+        as Map<String, dynamic>;
   }
 
-  factory UserModel.fromJson(DocumentSnapshot snap) {
-    final data = snap.data() as Map<String, dynamic>?;
-    if (data == null) return UserModel();
-    return UserModel(
-      uid: snap.id,
-      email: data['email'],
-      createdTime: (data['created_time'] as Timestamp).toDate(),
-    );
+  static UserModel? fromJson(Map<String, dynamic> json) {
+    return serializers.deserializeWith(UserModel.serializer, json);
   }
 
-  Map<String, Object?> toJson() {
-    return {
-      'email': email,
-      'created_time': createdTime,
-    };
-  }
-
-  @override
-  List<Object?> get props => [
-        uid,
-        email,
-        createdTime,
-      ];
+  static Serializer<UserModel> get serializer => _$userModelSerializer;
 }

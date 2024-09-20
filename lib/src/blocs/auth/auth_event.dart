@@ -10,10 +10,7 @@ sealed class AuthEvent extends Equatable {
 class AuthUserChanged extends AuthEvent {
   final auth.User? authUser;
   final UserModel? userModel;
-  const AuthUserChanged({
-    required this.authUser,
-    this.userModel,
-  });
+  const AuthUserChanged({required this.authUser, this.userModel});
   @override
   List<Object?> get props => [authUser, userModel];
 }
@@ -26,15 +23,15 @@ class AuthLogoutRequested extends AuthEvent {
 class UserUpdated extends AuthEvent {
   final UserModel userModel;
 
-  UserUpdated(this.userModel);
+  const UserUpdated(this.userModel);
 
   @override
   List<Object> get props => [userModel];
 }
 
 class DeleteUserRequest extends AuthEvent {
-  String? password;
-  DeleteUserRequest({this.password});
+  final String? password;
+  const DeleteUserRequest({this.password});
   @override
   List<Object?> get props => [password];
 }

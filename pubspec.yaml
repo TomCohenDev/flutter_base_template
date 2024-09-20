@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
 
   # file pickers
-  file_picker:
+  file_picker: 
   image_picker:
   flutter_launcher_icons:
   equatable:
@@ -37,12 +37,17 @@ dependencies:
   firebase_auth:
   firebase_messaging:
   firebase_analytics:
-  package_info_plus: ^8.0.2
+  package_info_plus:
+
+  built_value:
+  built_collection:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  build_runner:
+  built_value_generator:
 
 flutter_icons:
   android: "launcher_icon"

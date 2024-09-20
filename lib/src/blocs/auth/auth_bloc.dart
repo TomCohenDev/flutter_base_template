@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:flutter_app/indexes/indexes_models.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:revampedai/src/models/user_model.dart';
-import 'package:revampedai/src/repositories/auth_repo.dart';
-import 'package:revampedai/src/repositories/user_repo.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -31,7 +29,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _authUserSubscription = _authRepository.user.listen((authUser) {
       if (authUser != null) {
         print("auth user: ${authUser.email}");
-        _userRepository.getUser(authUser.uid).listen((userModel) {
+        _userRepository.userStream(authUser.uid).listen((userModel) {
           add(AuthUserChanged(authUser: authUser, userModel: userModel));
         });
       } else {

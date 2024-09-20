@@ -28,3 +28,6 @@ flutterfire configure
 
 flutter pub get
 flutter pub run flutter_launcher_icons
+
+
+flutter pub add built_value

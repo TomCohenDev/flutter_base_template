@@ -1,70 +1,54 @@
 import 'package:flutter_app/indexes/indexes_models.dart';
 import 'package:flutter_app/indexes/indexes_packages.dart';
+import 'package:flutter_app/indexes/indexes_services.dart';
 
 abstract class BaseUserRepository {
-  Stream<UserModel?> getUser(String uid);
   Future<void> createUser(UserModel user);
+  Future<UserModel?> getUser(String uid);
   Future<void> updateUser(UserModel user);
-  Future<void> deleteUser(UserModel user);
+  Future<void> deleteUser(String uid);
+  Stream<UserModel?> userStream(String uid);
 }
 
 class UserRepository extends BaseUserRepository {
-  final FirebaseFirestore _firebaseFirestore;
+  final String collectionPath = 'users/';
 
-  UserRepository({
-    FirebaseFirestore? firebaseFirestore,
-  }) : _firebaseFirestore = firebaseFirestore ?? FirebaseFirestore.instance;
+  UserRepository();
 
   @override
-  Stream<UserModel?> getUser(String uid) {
+  Stream<UserModel?> userStream(String uid) {
+    print('getting user stream from firestore');
+    final docPath = collectionPath + uid;
+    final docStream = FirestoreService.getDocAsStream(docPath);
+    return docStream.map((doc) => doc != null ? UserModel.fromJson(doc) : null);
+  }
+
+  @override
+  Future<UserModel?> getUser(String uid) async {
     print('getting user data from firestore');
-    return _firebaseFirestore
-        .collection('users')
-        .doc(uid)
-        .snapshots()
-        .map((snap) {
-      if (snap.data() != null) {
-        return UserModel.fromJson(snap);
-      } else {
-        return null;
-      }
-    });
+    final docPath = collectionPath + uid;
+    final data = await FirestoreService.getDoc(docPath);
+    return data != null ? UserModel.fromJson(data) : null;
   }
 
   @override
   Future<void> createUser(UserModel user) async {
-    bool userExists =
-        (await _firebaseFirestore.collection('users').doc(user.uid).get())
-            .exists;
-    if (userExists) {
-      return;
-    }
-    print('creating new user');
-
-    final userWithToken = user.copyWith();
-    return await _firebaseFirestore
-        .collection('users')
-        .doc(user.uid)
-        .set(userWithToken.toDocument());
+    print('creating user');
+    final docPath = collectionPath + user.uid;
+    return await FirestoreService.createDoc(docPath, user.toJson());
   }
 
   @override
   Future<void> updateUser(UserModel user) async {
-    return await _firebaseFirestore
-        .collection('users')
-        .doc(user.uid)
-        .update(user.toDocument())
-        .then((value) => print('user doc updated'));
+    print('updating user');
+    final docPath = collectionPath + user.uid;
+    return await FirestoreService.updateDoc(docPath, user.toJson());
   }
 
   @override
-  Future<void> deleteUser(UserModel user) async {
+  Future<void> deleteUser(String uid) async {
     print('deleting user');
-    return await _firebaseFirestore
-        .collection('users')
-        .doc(user.uid)
-        .delete()
-        .then((value) => print('User deleted'))
-        .catchError((error) => print('Failed to delete user: $error'));
+    final docPath = collectionPath + uid;
+    return await FirestoreService.deleteDoc(docPath);
   }
 }
