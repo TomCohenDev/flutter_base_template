@@ -32,7 +32,7 @@ class _$UserModelSerializer implements StructuredSerializer<UserModel> {
     value = object.createdTime;
     if (value != null) {
       result
-        ..add('createdTime')
+        ..add('DateTime')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(DateTime)));
     }
@@ -58,7 +58,7 @@ class _$UserModelSerializer implements StructuredSerializer<UserModel> {
           result.email = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'createdTime':
+        case 'DateTime':
           result.createdTime = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime?;
           break;

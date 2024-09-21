@@ -7,6 +7,7 @@ part 'user_model.g.dart';
 abstract class UserModel implements Built<UserModel, UserModelBuilder> {
   String get uid;
   String? get email;
+  @BuiltValueField(wireName: 'DateTime')
   DateTime? get createdTime;
 
   UserModel._();
@@ -20,6 +21,19 @@ abstract class UserModel implements Built<UserModel, UserModelBuilder> {
 
   static UserModel? fromJson(Map<String, dynamic> json) {
     return serializers.deserializeWith(UserModel.serializer, json);
+  }
+
+  UserModel copyWith({
+    String? uid,
+    String? email,
+    DateTime? createdTime,
+  }) {
+    return UserModel((b) {
+      b
+        ..uid = uid ?? this.uid
+        ..email = email ?? this.email
+        ..createdTime = createdTime ?? this.createdTime;
+    });
   }
 
   static Serializer<UserModel> get serializer => _$userModelSerializer;

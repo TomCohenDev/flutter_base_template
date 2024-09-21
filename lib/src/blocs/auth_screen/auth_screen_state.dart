@@ -12,7 +12,6 @@ class AuthScreenState extends Equatable {
   final bool isLoginMode;
   final bool obscurePassword;
   final bool obscureConfirmPassword;
-  final AuthResponse? authResponse;
 
   const AuthScreenState(
       {required this.email,
@@ -24,7 +23,7 @@ class AuthScreenState extends Equatable {
       this.isLoginMode = true,
       this.obscureConfirmPassword = true,
       this.obscurePassword = true,
-      this.authResponse});
+     });
 
   factory AuthScreenState.initial() {
     return AuthScreenState(
@@ -51,7 +50,6 @@ class AuthScreenState extends Equatable {
         isLoginMode,
         obscurePassword,
         obscureConfirmPassword,
-        authResponse,
       ];
 
   AuthScreenState copyWith({
@@ -64,7 +62,6 @@ class AuthScreenState extends Equatable {
     bool? isLoginMode,
     bool? obscurePassword,
     bool? obscureConfirmPassword,
-    AuthResponse? authResponse,
   }) {
     return AuthScreenState(
       email: email ?? this.email,
@@ -77,7 +74,6 @@ class AuthScreenState extends Equatable {
       obscurePassword: obscurePassword ?? this.obscurePassword,
       obscureConfirmPassword:
           obscureConfirmPassword ?? this.obscureConfirmPassword,
-      authResponse: authResponse ?? this.authResponse,
     );
   }
 }

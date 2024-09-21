@@ -19,7 +19,7 @@ class UserRepository extends BaseUserRepository {
   Stream<UserModel?> userStream(String uid) {
     print('getting user stream from firestore');
     final docPath = collectionPath + uid;
-    final docStream = FirestoreService.getDocAsStream(docPath);
+    final docStream = FirestoreService.streamDoc(docPath);
     return docStream.map((doc) => doc != null ? UserModel.fromJson(doc) : null);
   }
 

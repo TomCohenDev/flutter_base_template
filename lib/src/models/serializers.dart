@@ -1,3 +1,4 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,25 +10,36 @@ part 'serializers.g.dart';
   UserModel,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
-      ..addPlugin(StandardJsonPlugin())
-      ..add(TimestampSerializer()))
+      ..add(DateTimeSerializer())
+      ..addPlugin(StandardJsonPlugin()))
     .build();
 
-class TimestampSerializer implements PrimitiveSerializer<Timestamp> {
+class DateTimeSerializer implements PrimitiveSerializer<DateTime> {
   @override
-  final Iterable<Type> types = const [Timestamp];
+  final Iterable<Type> types = [DateTime];
   @override
-  final String wireName = 'Timestamp';
+  final String wireName = 'DateTime';
 
   @override
-  Object serialize(Serializers serializers, Timestamp timestamp,
+  Object serialize(Serializers serializers, DateTime dateTime,
       {FullType specifiedType = FullType.unspecified}) {
-    return timestamp;
+    // Convert DateTime to Timestamp when serializing
+    return Timestamp.fromDate(dateTime);
   }
 
   @override
-  Timestamp deserialize(Serializers serializers, Object serialized,
+  DateTime deserialize(Serializers serializers, Object serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    return serialized as Timestamp;
+    if (serialized is Timestamp) {
+      // Convert Timestamp to DateTime
+      return serialized.toDate();
+    } else if (serialized is DateTime) {
+      return serialized;
+    } else if (serialized is String) {
+      // Handle string representations if necessary
+      return DateTime.parse(serialized);
+    } else {
+      throw ArgumentError('Cannot deserialize $serialized to DateTime');
+    }
   }
 }

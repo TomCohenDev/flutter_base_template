@@ -1,4 +1,5 @@
 import 'package:flutter_app/indexes/indexes_packages.dart';
+import 'package:flutter_app/indexes/indexes_screens.dart';
 import 'package:flutter_app/indexes/indexes_services.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -13,6 +14,11 @@ GoRouter router = GoRouter(
     }),
     AnalyticsService().getAnalyticsObserver(),
   ],
-  initialLocation: '/handshake',
-  routes: [],
+  initialLocation: '/',
+  routes: [
+    GoRoute(
+      path: "/",
+      builder: (context, state) => const FirstScreen(),
+    )
+  ],
 );

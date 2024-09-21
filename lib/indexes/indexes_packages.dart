@@ -10,9 +10,10 @@ export 'package:firebase_messaging/firebase_messaging.dart';
 export 'package:firebase_auth/firebase_auth.dart';
 export 'package:cloud_firestore/cloud_firestore.dart';
 export 'package:firebase_storage/firebase_storage.dart';
+export 'package:flutter_bloc/flutter_bloc.dart';
+export 'dart:async';
 
 export 'package:flutter/services.dart';
-export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:go_router/go_router.dart';
 export 'package:package_info_plus/package_info_plus.dart';

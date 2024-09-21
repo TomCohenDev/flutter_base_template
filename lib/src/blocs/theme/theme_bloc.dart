@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:revampedai/core/theme/theme.dart';
 
 part 'theme_state.dart';
 part 'theme_event.dart';

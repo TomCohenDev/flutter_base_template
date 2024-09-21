@@ -9,3 +9,15 @@ class ThemeState {
 
   static ThemeState get darkTheme => ThemeState(AppTheme.dark);
 }
+
+class AppTheme {
+  static ThemeData get light => ThemeData(
+        brightness: Brightness.light,
+        primaryColor: Colors.blue,
+      );
+
+  static ThemeData get dark => ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.blue,
+      );
+}

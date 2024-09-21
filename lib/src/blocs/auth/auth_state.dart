@@ -1,32 +1,34 @@
+// auth_state.dart
+
 part of 'auth_bloc.dart';
 
-enum AuthStatus { unknown, authenticated, unauthenticated }
-
-class AuthState extends Equatable {
-  final AuthStatus status;
-  final auth.User? authUser;
-  final UserModel? userModel;
-  final bool? shouldUpdateState;
-
-  const AuthState._({
-    this.status = AuthStatus.unknown,
-    this.authUser,
-    this.userModel,
-    this.shouldUpdateState = false,
-  });
-
-  const AuthState.unknown() : this._();
-  const AuthState.authenticated({
-    required auth.User authUser,
-    required UserModel userModel,
-  }) : this._(
-            status: AuthStatus.authenticated,
-            authUser: authUser,
-            userModel: userModel);
-
-  const AuthState.unauthenticated()
-      : this._(status: AuthStatus.unauthenticated);
+abstract class AuthState extends Equatable {
+  const AuthState();
 
   @override
-  List<Object?> get props => [status, authUser, userModel];
+  List<Object?> get props => [];
+}
+
+class AuthUnknown extends AuthState {}
+
+class AuthLoading extends AuthState {}
+
+class Authenticated extends AuthState {
+  final auth.User authUser;
+  final UserModel userModel;
+  const Authenticated({
+    required this.authUser,
+    required this.userModel,
+  });
+  @override
+  List<Object?> get props => [authUser, userModel];
+}
+
+class Unauthenticated extends AuthState {}
+
+class AuthError extends AuthState {
+  final String message;
+  const AuthError({required this.message});
+  @override
+  List<Object?> get props => [message];
 }

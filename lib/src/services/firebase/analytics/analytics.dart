@@ -12,7 +12,7 @@ class AnalyticsLogger {
 
   static int counter = 0;
 
-  static void logEvent(String eventName, {Map<String?, dynamic>? parameters}) {
+  static void logEvent(String eventName, {Map<String?, Object>? parameters}) {
     try {
       // Validate event name length
       assert(eventName.length <= kMaxEventNameLength,
@@ -21,19 +21,19 @@ class AnalyticsLogger {
       // Initialize parameters if null
       parameters ??= {};
       final isdev = enableDevTag ? 'dev_' : '';
-      final uid =
-          AuthUtils.currentUserId == null || AuthUtils.currentUserId!.isEmpty
-              ? 'unset'
-              : AuthUtils.currentUserId!;
+      // final uid =
+      //     AuthUtils.currentUserId == null || AuthUtils.currentUserId!.isEmpty
+      //         ? 'unset'
+      //         : AuthUtils.currentUserId!;
       // final email =
       //     AuthUtils.currentUserId == null || AuthUtils.currentUserId!.isEmpty
       //         ? 'unset'
       //         : AuthUtils.currentUser.email!;
-      final versionLocal = HandshakeUtils.handshake.localVersion ?? "N/A";
+      // final versionLocal = HandshakeUtils.handshake.localVersion ?? "N/A";
 
-      parameters.putIfAbsent('user', () => uid);
+      // parameters.putIfAbsent('user', () => uid);
       // parameters.putIfAbsent('email', () => email);
-      parameters.putIfAbsent('version', () => isdev + versionLocal);
+      // parameters.putIfAbsent('version', () => isdev + versionLocal);
       parameters.putIfAbsent('dev_mode', () => devMode);
       parameters.putIfAbsent('session_id', () => sessionId);
 

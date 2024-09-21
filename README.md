@@ -29,5 +29,4 @@ flutterfire configure
 flutter pub get
 flutter pub run flutter_launcher_icons
 
-
-flutter pub add built_value
+flutter pub run build_runner build --delete-conflicting-outputs

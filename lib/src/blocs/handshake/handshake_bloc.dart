@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
-import 'package:revampedai/src/repositories/handshake_repo.dart';
-import 'package:revampedai/src/services/firebase_analytics/analytics.dart';
+import 'package:flutter_app/indexes/indexes_models.dart';
 
 part 'handshake_event.dart';
 part 'handshake_state.dart';
@@ -32,17 +31,8 @@ class HandshakeBloc extends Bloc<HandshakeEvent, HandshakeState> {
         return;
       }
       print('handshake checked');
-      handshake.printData();
       emit(HandshakeState.handshakeChecked(
         handshakeStatus: HandshakeStatus.handshakeOK,
-        isAppOnline: handshake.isAppOnline,
-        localAppVersion: handshake.localAppVersion,
-        lastestRemoteAppVersion: handshake.lastestRemoteAppVersion,
-        isUpdateAvailable: handshake.isUpdateAvailable,
-        isUpdateRequired: handshake.isUpdateRequired,
-        startAppDialogtitle: handshake.startAppDialogtitle,
-        startAppDialogDescription: handshake.startAppDialogDescription,
-        showStartAppDialog: handshake.showStartAppDialog,
       ));
     } catch (error) {
       print('handshake error: $error');

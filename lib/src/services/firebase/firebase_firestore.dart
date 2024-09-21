@@ -6,46 +6,38 @@ class FirestoreService {
   static final FirebaseFirestore _firebaseFirestore =
       FirebaseFirestore.instance;
 
-  static Map<String, dynamic> docToJson(DocumentSnapshot doc) {
-    return doc.data() as Map<String, dynamic>;
-  }
-
-  static Stream<Map<String, dynamic>?> getDocAsStream(String docPath) {
+  static Stream<Map<String, dynamic>?> streamDoc(String docPath) {
     return _firebaseFirestore.doc(docPath).snapshots().map((snap) {
       if (snap.data() != null) {
-        return _convertTimestamps(snap.data() as Map<String, dynamic>);
+        return snap.data();
       } else {
         return null;
       }
     });
   }
 
-  static Stream<List<Map<String, dynamic>>> getCollectionAsStream(
+  static Stream<List<Map<String, dynamic>>> streamCollection(
       String collectionPath) {
     return _firebaseFirestore
         .collection(collectionPath)
         .snapshots()
         .map((querySnapshot) {
-      return querySnapshot.docs
-          .map((doc) => _convertTimestamps(doc.data()))
-          .toList();
+      return querySnapshot.docs.map((doc) => doc.data()).toList();
     });
   }
 
-  static Future<List<Map<String, dynamic>>> getCollectionAsList(
+  static Future<List<Map<String, dynamic>>> getCollection(
       String collectionPath) async {
     final querySnapshot =
         await _firebaseFirestore.collection(collectionPath).get();
-    return querySnapshot.docs
-        .map((doc) => _convertTimestamps(doc.data()))
-        .toList();
+    return querySnapshot.docs.map((doc) => doc.data()).toList();
   }
 
   static Future<Map<String, dynamic>?> getDoc(String docPath) async {
     try {
       final doc = await _firebaseFirestore.doc(docPath).get();
       if (doc.exists && doc.data() != null) {
-        return _convertTimestamps(doc.data()!);
+        return doc.data()!;
       } else {
         return null;
       }
@@ -59,7 +51,7 @@ class FirestoreService {
     try {
       if (await doesDocExist(docPath)) return;
       final docRef = _firebaseFirestore.doc(docPath);
-      await docRef.set(_convertDateTimes(data));
+      await docRef.set(data);
     } catch (e) {
       throw Exception('Error creating document $docPath: $e');
     }
@@ -69,7 +61,7 @@ class FirestoreService {
       String docPath, Map<String, dynamic> data) async {
     try {
       final docRef = _firebaseFirestore.doc(docPath);
-      await docRef.update(_convertDateTimes(data));
+      await docRef.update(data);
     } catch (e) {
       throw Exception('Error updating document $docPath: $e');
     }
@@ -90,29 +82,5 @@ class FirestoreService {
     } catch (e) {
       throw Exception('Error checking existence of document $docPath: $e');
     }
-  }
-
-  // Helper method to convert Timestamps in data to DateTime
-  static Map<String, dynamic> _convertTimestamps(Map<String, dynamic> data) {
-    data.forEach((key, value) {
-      if (value is Timestamp) {
-        data[key] = value.toDate();
-      } else if (value is Map) {
-        data[key] = _convertTimestamps(value as Map<String, dynamic>);
-      }
-    });
-    return data;
-  }
-
-  // Helper method to convert DateTimes in data to Timestamps
-  static Map<String, dynamic> _convertDateTimes(Map<String, dynamic> data) {
-    data.forEach((key, value) {
-      if (value is DateTime) {
-        data[key] = Timestamp.fromDate(value);
-      } else if (value is Map) {
-        data[key] = _convertDateTimes(value as Map<String, dynamic>);
-      }
-    });
-    return data;
   }
 }
