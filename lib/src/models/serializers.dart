@@ -1,7 +1,5 @@
-import 'package:built_collection/built_collection.dart';
-import 'package:built_value/serializer.dart';
-import 'package:built_value/standard_json_plugin.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_app/indexes/indexes_packages.dart';
+import 'package:flutter_app/indexes/indexes_services.dart';
 import 'user_model.dart';
 
 part 'serializers.g.dart';
@@ -13,6 +11,40 @@ final Serializers serializers = (_$serializers.toBuilder()
       ..add(DateTimeSerializer())
       ..addPlugin(StandardJsonPlugin()))
     .build();
+
+void validateJsonForModel(
+    Map<String, dynamic> json, Set<String> expectedFields) {
+  final jsonKeys = json.keys.toSet();
+  final missingFields = expectedFields.difference(jsonKeys);
+  if (missingFields.isNotEmpty) {
+    throw DeserializationException(
+      'Missing required fields: ${missingFields.join(', ')}',
+    );
+  }
+  final extraFields = jsonKeys.difference(expectedFields);
+  if (extraFields.isNotEmpty) {
+    throw DeserializationException(
+      'Unexpected fields: ${extraFields.join(', ')}',
+    );
+  }
+}
+
+T deserializeJsonToModelWith<T>(
+  Map<String, dynamic> json,
+  Set<String> expectedFields,
+  Serializer<T> serializer,
+) {
+  try {
+    validateJsonForModel(json, expectedFields);
+    final model = serializers.deserializeWith(serializer, json);
+    if (model == null)
+      throw DeserializationException('Deserialization returned null');
+    return model;
+  } catch (error) {
+    throw DeserializationException(
+        'Error deserializing ${T.toString()}: $error');
+  }
+}
 
 class DateTimeSerializer implements PrimitiveSerializer<DateTime> {
   @override

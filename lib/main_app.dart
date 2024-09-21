@@ -25,7 +25,9 @@ class MainApp extends StatelessWidget {
             create: (context) => getIt<AuthBloc>(),
           ),
           BlocProvider<UserBloc>(
-            create: (context) => getIt<UserBloc>(),
+            create: (context) => UserBloc(
+              userRepository: getIt<UserRepository>(),
+            ),
           ),
           BlocProvider<AuthScreenCubit>(
             create: (context) => AuthScreenCubit(

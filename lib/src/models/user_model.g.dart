@@ -20,22 +20,17 @@ class _$UserModelSerializer implements StructuredSerializer<UserModel> {
     final result = <Object?>[
       'uid',
       serializers.serialize(object.uid, specifiedType: const FullType(String)),
+      'email',
+      serializers.serialize(object.email,
+          specifiedType: const FullType(String)),
+      'created_time',
+      serializers.serialize(object.createdTime,
+          specifiedType: const FullType(DateTime)),
+      'last_settion_time',
+      serializers.serialize(object.lastSettionTime,
+          specifiedType: const FullType(DateTime)),
     ];
-    Object? value;
-    value = object.email;
-    if (value != null) {
-      result
-        ..add('email')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.createdTime;
-    if (value != null) {
-      result
-        ..add('DateTime')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(DateTime)));
-    }
+
     return result;
   }
 
@@ -56,11 +51,15 @@ class _$UserModelSerializer implements StructuredSerializer<UserModel> {
           break;
         case 'email':
           result.email = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+              specifiedType: const FullType(String))! as String;
           break;
-        case 'DateTime':
+        case 'created_time':
           result.createdTime = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime)) as DateTime?;
+              specifiedType: const FullType(DateTime))! as DateTime;
+          break;
+        case 'last_settion_time':
+          result.lastSettionTime = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime))! as DateTime;
           break;
       }
     }
@@ -73,15 +72,27 @@ class _$UserModel extends UserModel {
   @override
   final String uid;
   @override
-  final String? email;
+  final String email;
   @override
-  final DateTime? createdTime;
+  final DateTime createdTime;
+  @override
+  final DateTime lastSettionTime;
 
   factory _$UserModel([void Function(UserModelBuilder)? updates]) =>
       (new UserModelBuilder()..update(updates))._build();
 
-  _$UserModel._({required this.uid, this.email, this.createdTime}) : super._() {
+  _$UserModel._(
+      {required this.uid,
+      required this.email,
+      required this.createdTime,
+      required this.lastSettionTime})
+      : super._() {
     BuiltValueNullFieldError.checkNotNull(uid, r'UserModel', 'uid');
+    BuiltValueNullFieldError.checkNotNull(email, r'UserModel', 'email');
+    BuiltValueNullFieldError.checkNotNull(
+        createdTime, r'UserModel', 'createdTime');
+    BuiltValueNullFieldError.checkNotNull(
+        lastSettionTime, r'UserModel', 'lastSettionTime');
   }
 
   @override
@@ -97,7 +108,8 @@ class _$UserModel extends UserModel {
     return other is UserModel &&
         uid == other.uid &&
         email == other.email &&
-        createdTime == other.createdTime;
+        createdTime == other.createdTime &&
+        lastSettionTime == other.lastSettionTime;
   }
 
   @override
@@ -106,6 +118,7 @@ class _$UserModel extends UserModel {
     _$hash = $jc(_$hash, uid.hashCode);
     _$hash = $jc(_$hash, email.hashCode);
     _$hash = $jc(_$hash, createdTime.hashCode);
+    _$hash = $jc(_$hash, lastSettionTime.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -115,7 +128,8 @@ class _$UserModel extends UserModel {
     return (newBuiltValueToStringHelper(r'UserModel')
           ..add('uid', uid)
           ..add('email', email)
-          ..add('createdTime', createdTime))
+          ..add('createdTime', createdTime)
+          ..add('lastSettionTime', lastSettionTime))
         .toString();
   }
 }
@@ -135,6 +149,11 @@ class UserModelBuilder implements Builder<UserModel, UserModelBuilder> {
   DateTime? get createdTime => _$this._createdTime;
   set createdTime(DateTime? createdTime) => _$this._createdTime = createdTime;
 
+  DateTime? _lastSettionTime;
+  DateTime? get lastSettionTime => _$this._lastSettionTime;
+  set lastSettionTime(DateTime? lastSettionTime) =>
+      _$this._lastSettionTime = lastSettionTime;
+
   UserModelBuilder();
 
   UserModelBuilder get _$this {
@@ -143,6 +162,7 @@ class UserModelBuilder implements Builder<UserModel, UserModelBuilder> {
       _uid = $v.uid;
       _email = $v.email;
       _createdTime = $v.createdTime;
+      _lastSettionTime = $v.lastSettionTime;
       _$v = null;
     }
     return this;
@@ -167,8 +187,12 @@ class UserModelBuilder implements Builder<UserModel, UserModelBuilder> {
         new _$UserModel._(
             uid:
                 BuiltValueNullFieldError.checkNotNull(uid, r'UserModel', 'uid'),
-            email: email,
-            createdTime: createdTime);
+            email: BuiltValueNullFieldError.checkNotNull(
+                email, r'UserModel', 'email'),
+            createdTime: BuiltValueNullFieldError.checkNotNull(
+                createdTime, r'UserModel', 'createdTime'),
+            lastSettionTime: BuiltValueNullFieldError.checkNotNull(
+                lastSettionTime, r'UserModel', 'lastSettionTime'));
     replace(_$result);
     return _$result;
   }

@@ -11,6 +11,8 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
   final UserRepository _userRepository;
+  final DateTime sessionStartTime = DateTime.now();
+  bool didUpdatedSessionTime = false;
 
   StreamSubscription<auth.User?>? _authUserSubscription;
   StreamSubscription<UserModel?>? _userSubscription;
@@ -26,7 +28,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLogoutRequested>(_onAuthLogoutRequested);
     on<SignInRequested>(_onSignInRequested);
     on<SignUpRequested>(_onSignUpRequested);
-
     // Listen to authentication state changes
     add(AppStarted());
   }
@@ -74,7 +75,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await _userRepository.createUser(UserModel((b) => b
         ..uid = string
         ..email = event.email
-        ..createdTime = DateTime.now().toUtc()));
+        ..createdTime = DateTime.now()
+        ..lastSettionTime = DateTime.now()));
     } catch (e) {
       emit(AuthError(message: 'Failed to sign up: $e'));
     }
@@ -82,6 +84,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _onAuthUserChanged(AuthUserChanged event, Emitter<AuthState> emit) {
     if (event.authUser != null && event.userModel != null) {
+      if (!didUpdatedSessionTime) {
+        _userRepository.updateUser(event.userModel!
+            .rebuild((b) => b..lastSettionTime = DateTime.now()));
+        didUpdatedSessionTime = true;
+      }
       emit(Authenticated(
           authUser: event.authUser!, userModel: event.userModel!));
     } else {

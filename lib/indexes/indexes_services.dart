@@ -7,5 +7,6 @@ export '../src/utils/auth_response.dart';
 export '../src/utils/auth_utils.dart';
 export '../src/utils/extensions.dart';
 export '../src/utils/handshake_utils.dart';
+export '../src/utils/exceptions/deserialization_exception.dart';
 export 'dart:async';
 export 'dart:math';

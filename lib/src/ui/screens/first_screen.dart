@@ -54,8 +54,9 @@ class FirstScreen extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: () {
-              final email = _emailController.text.trim();
-              final password = _passwordController.text.trim();
+              final email =
+                  'tom.cohen99@gmail.com'; //_emailController.text.trim();
+              final password = '123456'; //_passwordController.text.trim();
 
               if (email.isNotEmpty && password.isNotEmpty) {
                 // Trigger sign-in
