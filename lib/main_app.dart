@@ -19,24 +19,9 @@ class MainApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider<HandshakeBloc>(
-            create: (context) => getIt<HandshakeBloc>(),
-          ),
-          BlocProvider<AuthBloc>(
-            create: (context) => getIt<AuthBloc>(),
-          ),
-          BlocProvider<UserBloc>(
-            create: (context) => UserBloc(
-              userRepository: getIt<UserRepository>(),
-            ),
-          ),
-          BlocProvider<AuthScreenCubit>(
-            create: (context) => AuthScreenCubit(
-              authRepository: getIt<AuthRepository>(),
-            ),
-          ),
-          BlocProvider<ThemeBloc>(
-            create: (context) => ThemeBloc(),
-          ),
+              create: (context) => getIt<HandshakeBloc>()),
+          BlocProvider<AuthBloc>(create: (context) => getIt<AuthBloc>()),
+          BlocProvider<ThemeBloc>(create: (context) => ThemeBloc()),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {

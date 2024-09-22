@@ -26,8 +26,8 @@ class _$UserModelSerializer implements StructuredSerializer<UserModel> {
       'created_time',
       serializers.serialize(object.createdTime,
           specifiedType: const FullType(DateTime)),
-      'last_settion_time',
-      serializers.serialize(object.lastSettionTime,
+      'last_session_time',
+      serializers.serialize(object.lastSessionTime,
           specifiedType: const FullType(DateTime)),
     ];
 
@@ -57,8 +57,8 @@ class _$UserModelSerializer implements StructuredSerializer<UserModel> {
           result.createdTime = serializers.deserialize(value,
               specifiedType: const FullType(DateTime))! as DateTime;
           break;
-        case 'last_settion_time':
-          result.lastSettionTime = serializers.deserialize(value,
+        case 'last_session_time':
+          result.lastSessionTime = serializers.deserialize(value,
               specifiedType: const FullType(DateTime))! as DateTime;
           break;
       }
@@ -76,7 +76,7 @@ class _$UserModel extends UserModel {
   @override
   final DateTime createdTime;
   @override
-  final DateTime lastSettionTime;
+  final DateTime lastSessionTime;
 
   factory _$UserModel([void Function(UserModelBuilder)? updates]) =>
       (new UserModelBuilder()..update(updates))._build();
@@ -85,14 +85,14 @@ class _$UserModel extends UserModel {
       {required this.uid,
       required this.email,
       required this.createdTime,
-      required this.lastSettionTime})
+      required this.lastSessionTime})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(uid, r'UserModel', 'uid');
     BuiltValueNullFieldError.checkNotNull(email, r'UserModel', 'email');
     BuiltValueNullFieldError.checkNotNull(
         createdTime, r'UserModel', 'createdTime');
     BuiltValueNullFieldError.checkNotNull(
-        lastSettionTime, r'UserModel', 'lastSettionTime');
+        lastSessionTime, r'UserModel', 'lastSessionTime');
   }
 
   @override
@@ -109,7 +109,7 @@ class _$UserModel extends UserModel {
         uid == other.uid &&
         email == other.email &&
         createdTime == other.createdTime &&
-        lastSettionTime == other.lastSettionTime;
+        lastSessionTime == other.lastSessionTime;
   }
 
   @override
@@ -118,7 +118,7 @@ class _$UserModel extends UserModel {
     _$hash = $jc(_$hash, uid.hashCode);
     _$hash = $jc(_$hash, email.hashCode);
     _$hash = $jc(_$hash, createdTime.hashCode);
-    _$hash = $jc(_$hash, lastSettionTime.hashCode);
+    _$hash = $jc(_$hash, lastSessionTime.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -129,7 +129,7 @@ class _$UserModel extends UserModel {
           ..add('uid', uid)
           ..add('email', email)
           ..add('createdTime', createdTime)
-          ..add('lastSettionTime', lastSettionTime))
+          ..add('lastSessionTime', lastSessionTime))
         .toString();
   }
 }
@@ -149,10 +149,10 @@ class UserModelBuilder implements Builder<UserModel, UserModelBuilder> {
   DateTime? get createdTime => _$this._createdTime;
   set createdTime(DateTime? createdTime) => _$this._createdTime = createdTime;
 
-  DateTime? _lastSettionTime;
-  DateTime? get lastSettionTime => _$this._lastSettionTime;
-  set lastSettionTime(DateTime? lastSettionTime) =>
-      _$this._lastSettionTime = lastSettionTime;
+  DateTime? _lastSessionTime;
+  DateTime? get lastSessionTime => _$this._lastSessionTime;
+  set lastSessionTime(DateTime? lastSessionTime) =>
+      _$this._lastSessionTime = lastSessionTime;
 
   UserModelBuilder();
 
@@ -162,7 +162,7 @@ class UserModelBuilder implements Builder<UserModel, UserModelBuilder> {
       _uid = $v.uid;
       _email = $v.email;
       _createdTime = $v.createdTime;
-      _lastSettionTime = $v.lastSettionTime;
+      _lastSessionTime = $v.lastSessionTime;
       _$v = null;
     }
     return this;
@@ -191,8 +191,8 @@ class UserModelBuilder implements Builder<UserModel, UserModelBuilder> {
                 email, r'UserModel', 'email'),
             createdTime: BuiltValueNullFieldError.checkNotNull(
                 createdTime, r'UserModel', 'createdTime'),
-            lastSettionTime: BuiltValueNullFieldError.checkNotNull(
-                lastSettionTime, r'UserModel', 'lastSettionTime'));
+            lastSessionTime: BuiltValueNullFieldError.checkNotNull(
+                lastSessionTime, r'UserModel', 'lastSessionTime'));
     replace(_$result);
     return _$result;
   }

@@ -9,8 +9,8 @@ abstract class UserModel implements Built<UserModel, UserModelBuilder> {
   String get email;
   @BuiltValueField(wireName: 'created_time')
   DateTime get createdTime;
-  @BuiltValueField(wireName: 'last_settion_time')
-  DateTime get lastSettionTime;
+  @BuiltValueField(wireName: 'last_session_time')
+  DateTime get lastSessionTime;
 
   UserModel._();
 
@@ -19,7 +19,7 @@ abstract class UserModel implements Built<UserModel, UserModelBuilder> {
     'uid',
     'email',
     'created_time',
-    'last_settion_time'
+    'last_session_time'
   };
 
   Map<String, dynamic> toJson() {
@@ -38,12 +38,14 @@ abstract class UserModel implements Built<UserModel, UserModelBuilder> {
     String? uid,
     String? email,
     DateTime? createdTime,
+    DateTime? lastSessionTime,
   }) {
     return UserModel((b) {
       b
         ..uid = uid ?? this.uid
         ..email = email ?? this.email
-        ..createdTime = createdTime ?? this.createdTime;
+        ..createdTime = createdTime ?? this.createdTime
+        ..lastSessionTime = lastSessionTime ?? this.lastSessionTime;
     });
   }
 

@@ -94,12 +94,7 @@ class FirestoreService {
   }
 
   static Future<bool> doesDocExist(String docPath) async {
-    try {
-      final docSnapshot = await _firebaseFirestore.doc(docPath).get();
-      return docSnapshot.exists;
-    } catch (e) {
-      print('Error in doesDocExist: $e');
-      throw Exception('Error checking existence of document $docPath: $e');
-    }
+    final docSnapshot = await _firebaseFirestore.doc(docPath).get();
+    return docSnapshot.exists;
   }
 }

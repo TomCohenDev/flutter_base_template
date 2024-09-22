@@ -19,9 +19,8 @@ void setupLocator() {
   getIt.registerLazySingleton<HandshakeBloc>(
       () => HandshakeBloc(handshakeRepository: getIt<HandshakeRepository>()));
   getIt.registerLazySingleton<AuthBloc>(() => AuthBloc(
-        authRepository: getIt<AuthRepository>(),
-        userRepository: getIt<UserRepository>(),
-      ));
+      authRepository: getIt<AuthRepository>(),
+      userRepository: getIt<UserRepository>()));
 }
 
 void main() async {

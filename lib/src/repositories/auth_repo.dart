@@ -14,12 +14,10 @@ abstract class BaseAuthRepository {
 
 class AuthRepository extends BaseAuthRepository {
   final auth.FirebaseAuth _firebaseAuth;
-  final UserRepository _userRepository;
 
   AuthRepository(
       {auth.FirebaseAuth? firebaseAuth, required UserRepository userRepository})
-      : _firebaseAuth = firebaseAuth ?? auth.FirebaseAuth.instance,
-        _userRepository = userRepository;
+      : _firebaseAuth = firebaseAuth ?? auth.FirebaseAuth.instance;
 
   @override
   Stream<auth.User?> get user => _firebaseAuth.userChanges();

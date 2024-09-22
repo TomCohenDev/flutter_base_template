@@ -17,8 +17,17 @@ GoRouter router = GoRouter(
   initialLocation: '/',
   routes: [
     GoRoute(
-      path: "/",
-      builder: (context, state) => const FirstScreen(),
-    )
+      path: '/',
+      builder: (context, state) => const MainScreen(),
+    ),
+    // Optional: If you want to have explicit routes for authenticated and unauthenticated screens
+    GoRoute(
+      path: '/authenticated',
+      builder: (context, state) => const AuthenticatedScreen(),
+    ),
+    GoRoute(
+      path: '/unauthenticated',
+      builder: (context, state) => const UnauthenticatedScreen(),
+    ),
   ],
 );
