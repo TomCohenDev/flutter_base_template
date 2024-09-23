@@ -1,6 +1,5 @@
 export 'package:get_it/get_it.dart';
 export 'package:flutter/material.dart';
-export 'package:flutter/foundation.dart';
 export 'package:built_value/serializer.dart';
 export 'package:built_value/standard_json_plugin.dart';
 export 'package:get_storage/get_storage.dart';
@@ -13,7 +12,7 @@ export 'package:cloud_firestore/cloud_firestore.dart';
 export 'package:firebase_storage/firebase_storage.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'dart:async';
-
+export 'dart:io';
 export 'package:flutter/services.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:go_router/go_router.dart';

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_app/indexes/indexes_blocs.dart';
 import 'package:flutter_app/indexes/indexes_core.dart';
 import 'package:flutter_app/indexes/indexes_models.dart';
@@ -8,7 +9,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    if (!kIsWeb)
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     return MultiRepositoryProvider(
       providers: [

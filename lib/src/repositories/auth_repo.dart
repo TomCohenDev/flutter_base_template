@@ -10,6 +10,7 @@ abstract class BaseAuthRepository {
   Future<AuthResponse> logInWithEmail(
       {required String email, required String password});
   Future<void> signOut();
+  Future<void> deleteAuthUser();
 }
 
 class AuthRepository extends BaseAuthRepository {
@@ -21,6 +22,22 @@ class AuthRepository extends BaseAuthRepository {
 
   @override
   Stream<auth.User?> get user => _firebaseAuth.userChanges();
+
+  @override
+  Future<void> deleteAuthUser() async {
+    final user = _firebaseAuth.currentUser;
+    if (user != null) {
+      await user.delete().onError(
+        (error, stackTrace) {
+          print('Error deleting user: $error');
+          throw Exception('Error deleting user: $error');
+        },
+      );
+    } else {
+      print('Error deleting user: user is null');
+      throw Exception('Error deleting user: user is null');
+    }
+  }
 
   @override
   Future<String> signUpWithEmail({

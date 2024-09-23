@@ -2,7 +2,7 @@ import 'package:flutter_app/indexes/indexes_blocs.dart';
 import 'package:flutter_app/indexes/indexes_packages.dart';
 
 class UnauthenticatedScreen extends StatelessWidget {
-  const UnauthenticatedScreen({Key? key}) : super(key: key);
+  const UnauthenticatedScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

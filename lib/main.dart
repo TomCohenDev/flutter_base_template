@@ -5,7 +5,7 @@ import 'package:flutter_app/indexes/indexes_packages.dart';
 import 'package:flutter_app/indexes/indexes_services.dart';
 
 final GetIt getIt = GetIt.instance;
-late FirebaseAnalytics analytics;
+// late FirebaseAnalytics analytics;
 String sessionId = "unset";
 bool devMode = true;
 
@@ -26,7 +26,12 @@ void setupLocator() {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
+      .whenComplete(
+    () {
+      print('Firebase initialized');
+    },
+  );
   // analytics = FirebaseAnalytics.instance;
 
   // await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
@@ -42,4 +47,24 @@ void main() async {
   await GetStorage.init();
 
   runApp(const MainApp());
+}
+
+//create main app
+class MainApp2 extends StatelessWidget {
+  const MainApp2({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Scaffold(
+        body: Center(
+          child: Text('Hello World'),
+        ),
+      ),
+    );
+  }
 }

@@ -67,16 +67,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       AuthUserChanged event, Emitter<AuthState> emit) async {
     if (event.authUser != null && event.userModel != null) {
       // Update session time only once per app session
-      if (!didUpdateSessionTime) {
-        await _userRepository.updateUser(
-          event.userModel!.rebuild((b) => b..lastSessionTime = DateTime.now()),
-        );
-        didUpdateSessionTime = true;
-      }
+      updateUserSessionTime(event.userModel!);
       emit(Authenticated(
           authUser: event.authUser!, userModel: event.userModel!));
     } else {
       emit(Unauthenticated());
+    }
+  }
+
+  void updateUserSessionTime(UserModel userModel) async {
+    if (!didUpdateSessionTime) {
+      await _userRepository.updateUser(
+        userModel.rebuild((b) => b..lastSessionTime = DateTime.now()),
+      );
+      didUpdateSessionTime = true;
     }
   }
 
@@ -146,9 +150,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       DeleteUserRequested event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
+      await _authRepository.deleteAuthUser();
       await _userRepository.deleteUser(event.uid);
+      print('User ${event.uid} deleted successfully');
       // Optionally sign out the user after deletion
-      await _authRepository.signOut();
       emit(Unauthenticated());
     } catch (e) {
       emit(AuthError(message: 'Failed to delete user: $e'));
