@@ -11,6 +11,7 @@ abstract class UserModel implements Built<UserModel, UserModelBuilder> {
   DateTime get createdTime;
   @BuiltValueField(wireName: 'last_session_time')
   DateTime get lastSessionTime;
+  String? get name;
 
   UserModel._();
 
@@ -19,17 +20,18 @@ abstract class UserModel implements Built<UserModel, UserModelBuilder> {
     'uid',
     'email',
     'created_time',
-    'last_session_time'
+    'last_session_time',
+    'name'
   };
 
   Map<String, dynamic> toJson() {
-    print('Serializing UserModel: $this');
+    if (false) print('Serializing UserModel: $this');
     return serializers.serializeWith(UserModel.serializer, this)
         as Map<String, dynamic>;
   }
 
   static UserModel fromJson(Map<String, dynamic> json) {
-    print('Deserializing UserModel: $json');
+    if (false) print('Deserializing UserModel: $json');
     return deserializeJsonToModelWith<UserModel>(
         json, expectedFields, serializer);
   }
@@ -39,13 +41,15 @@ abstract class UserModel implements Built<UserModel, UserModelBuilder> {
     String? email,
     DateTime? createdTime,
     DateTime? lastSessionTime,
+    String? name,
   }) {
     return UserModel((b) {
       b
         ..uid = uid ?? this.uid
         ..email = email ?? this.email
         ..createdTime = createdTime ?? this.createdTime
-        ..lastSessionTime = lastSessionTime ?? this.lastSessionTime;
+        ..lastSessionTime = lastSessionTime ?? this.lastSessionTime
+        ..name = name ?? this.name;
     });
   }
 

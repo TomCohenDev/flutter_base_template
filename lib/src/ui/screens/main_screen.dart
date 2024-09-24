@@ -7,27 +7,30 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Listen to AuthBloc
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
-          );
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(state.message)));
+        }
+        if (state is Authenticated) {
+          context.goNamed('authenticated');
+        } else if (state is Unauthenticated) {
+          context.goNamed('unauthenticated');
         }
       },
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           if (state is Authenticated) {
-            // User is authenticated
             return const AuthenticatedScreen();
-          } else if (state is AuthLoading) {
-            // Authentication in progress
+          } else if (state is AuthLoadingSignIn ||
+              state is AuthLoadingSignUp ||
+              state is AuthLoadingDeleteUser ||
+              state is AuthLoadingLogout) {
             return const Scaffold(
               body: Center(child: CircularProgressIndicator()),
             );
           } else {
-            // User is unauthenticated
             return const UnauthenticatedScreen();
           }
         },

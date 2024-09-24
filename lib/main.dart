@@ -1,70 +1,14 @@
-import 'package:flutter_app/indexes/indexes_blocs.dart';
+import 'package:flutter_app/src/services/service_locator.dart';
 import 'package:flutter_app/indexes/indexes_core.dart';
-import 'package:flutter_app/indexes/indexes_models.dart';
 import 'package:flutter_app/indexes/indexes_packages.dart';
 import 'package:flutter_app/indexes/indexes_services.dart';
+import 'package:flutter_app/src/services/firebase/firebase_init.dart';
+import 'package:flutter_app/src/services/get_storage.dart';
 
-final GetIt getIt = GetIt.instance;
-// late FirebaseAnalytics analytics;
-String sessionId = "unset";
-bool devMode = true;
-
-void setupLocator() {
-  // Repository
-  getIt.registerLazySingleton<HandshakeRepository>(() => HandshakeRepository());
-  getIt.registerLazySingleton<UserRepository>(() => UserRepository());
-  getIt.registerLazySingleton<AuthRepository>(
-      () => AuthRepository(userRepository: getIt<UserRepository>()));
-  // Blocs
-  getIt.registerLazySingleton<HandshakeBloc>(
-      () => HandshakeBloc(handshakeRepository: getIt<HandshakeRepository>()));
-  getIt.registerLazySingleton<AuthBloc>(() => AuthBloc(
-      authRepository: getIt<AuthRepository>(),
-      userRepository: getIt<UserRepository>()));
-}
-
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
-      .whenComplete(
-    () {
-      print('Firebase initialized');
-    },
-  );
-  // analytics = FirebaseAnalytics.instance;
-
-  // await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-  // FlutterError.onError = (errorDetails) {
-  //   FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-  // };
-  // PlatformDispatcher.instance.onError = (error, stack) {
-  //   FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-  //   return true;
-  // };
-
+  await initializeFirebase();
+  await initializeGetStorage();
   setupLocator();
-  await GetStorage.init();
-
   runApp(const MainApp());
-}
-
-//create main app
-class MainApp2 extends StatelessWidget {
-  const MainApp2({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World'),
-        ),
-      ),
-    );
-  }
 }

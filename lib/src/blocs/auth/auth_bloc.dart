@@ -1,4 +1,3 @@
-// auth_bloc.dart
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter_app/indexes/indexes_models.dart';
 import 'package:flutter_app/indexes/indexes_packages.dart';
@@ -67,7 +66,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       AuthUserChanged event, Emitter<AuthState> emit) async {
     if (event.authUser != null && event.userModel != null) {
       // Update session time only once per app session
-      updateUserSessionTime(event.userModel!);
+      // updateUserSessionTime(event.userModel!);
       emit(Authenticated(
           authUser: event.authUser!, userModel: event.userModel!));
     } else {
@@ -86,20 +85,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onSignInRequested(
       SignInRequested event, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
-    try {
-      await _authRepository.logInWithEmail(
-        email: event.email,
-        password: event.password,
-      );
-    } catch (e) {
-      emit(AuthError(message: 'Failed to sign in: $e'));
-    }
+    emit(AuthLoadingSignIn());
+    await _authRepository.logInWithEmail(
+        email: event.email, password: event.password);
   }
 
   Future<void> _onSignUpRequested(
       SignUpRequested event, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
+    emit(AuthLoadingSignUp());
     try {
       final uid = await _authRepository.signUpWithEmail(
         email: event.email,
@@ -108,6 +101,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // Create user in Firestore
       await _userRepository.createUser(UserModel((b) => b
         ..uid = uid
+        ..name = 'none'
         ..email = event.email
         ..createdTime = DateTime.now()
         ..lastSessionTime = DateTime.now()));
@@ -118,6 +112,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onAuthLogoutRequested(
       AuthLogoutRequested event, Emitter<AuthState> emit) async {
+    emit(AuthLoadingLogout());
     await _authRepository.signOut();
     emit(Unauthenticated());
   }
@@ -125,7 +120,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   // User-related operations
   Future<void> _onUpdateUserRequested(
       UpdateUserRequested event, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
+    emit(UpdatingUserData(
+        authUser: (state as Authenticated).authUser,
+        userModel: (state as Authenticated).userModel,
+        status: event.status));
+
+    // emit(
+    //   Authenticated(
+    //     authUser: (state as Authenticated).authUser,
+    //     userModel: (state as Authenticated).userModel,
+    //     loadingState: event.loadingState,
+    //   ),
+    // );
+
+    await Future.delayed(const Duration(seconds: 2));
     try {
       await _userRepository.updateUser(event.user);
       // Fetch updated user model
@@ -148,7 +156,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onDeleteUserRequested(
       DeleteUserRequested event, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
+    emit(AuthLoadingDeleteUser());
     try {
       await _authRepository.deleteAuthUser();
       await _userRepository.deleteUser(event.uid);

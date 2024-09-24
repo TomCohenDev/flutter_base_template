@@ -13,6 +13,7 @@ export 'package:firebase_storage/firebase_storage.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'dart:async';
 export 'dart:io';
+export 'dart:convert';
 export 'package:flutter/services.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:go_router/go_router.dart';

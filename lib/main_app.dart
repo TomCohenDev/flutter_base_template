@@ -3,6 +3,7 @@ import 'package:flutter_app/indexes/indexes_blocs.dart';
 import 'package:flutter_app/indexes/indexes_core.dart';
 import 'package:flutter_app/indexes/indexes_models.dart';
 import 'package:flutter_app/indexes/indexes_packages.dart';
+import 'package:flutter_app/src/services/service_locator.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});

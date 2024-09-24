@@ -3,16 +3,12 @@ import 'package:flutter_app/indexes/indexes_screens.dart';
 import 'package:flutter_app/indexes/indexes_services.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
+final routeObserver = AnalyticsRouteObserver();
 
 GoRouter router = GoRouter(
   navigatorKey: navigatorKey,
   observers: [
-    AppNavigatorObserver(onScreenView: (screenName) {
-      // final state = navigatorKey.currentState?.context
-      //     .findAncestorStateOfType<RevampedAppState>();
-      // state?.logScreenView(screenName);
-    }),
-    AnalyticsService().getAnalyticsObserver(),
+    routeObserver,
   ],
   initialLocation: '/',
   routes: [
@@ -20,13 +16,14 @@ GoRouter router = GoRouter(
       path: '/',
       builder: (context, state) => const MainScreen(),
     ),
-    // Optional: If you want to have explicit routes for authenticated and unauthenticated screens
     GoRoute(
       path: '/authenticated',
+      name: 'authenticated',
       builder: (context, state) => const AuthenticatedScreen(),
     ),
     GoRoute(
       path: '/unauthenticated',
+      name: 'unauthenticated',
       builder: (context, state) => const UnauthenticatedScreen(),
     ),
   ],

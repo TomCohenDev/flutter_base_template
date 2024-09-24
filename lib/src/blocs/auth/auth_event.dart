@@ -45,11 +45,12 @@ class SignUpRequested extends AuthEvent {
 // User-related events
 class UpdateUserRequested extends AuthEvent {
   final UserModel user;
+  final UpdatingUserDataStatus status;
 
-  const UpdateUserRequested(this.user);
+  const UpdateUserRequested(this.user, this.status);
 
   @override
-  List<Object?> get props => [user];
+  List<Object?> get props => [user, status];
 }
 
 class DeleteUserRequested extends AuthEvent {

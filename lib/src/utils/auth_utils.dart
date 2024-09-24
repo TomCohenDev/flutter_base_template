@@ -1,6 +1,7 @@
 import 'package:flutter_app/indexes/indexes_blocs.dart';
 import 'package:flutter_app/indexes/indexes_core.dart';
 import 'package:flutter_app/indexes/indexes_models.dart';
+import 'package:flutter_app/src/services/service_locator.dart';
 
 class AuthUtils {
   static UserModel? get currentUser {

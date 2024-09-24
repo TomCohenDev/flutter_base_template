@@ -30,3 +30,5 @@ flutter pub get
 flutter pub run flutter_launcher_icons
 
 flutter pub run build_runner build --delete-conflicting-outputs
+
+fvm flutter run -d chrome

@@ -30,7 +30,14 @@ class _$UserModelSerializer implements StructuredSerializer<UserModel> {
       serializers.serialize(object.lastSessionTime,
           specifiedType: const FullType(DateTime)),
     ];
-
+    Object? value;
+    value = object.name;
+    if (value != null) {
+      result
+        ..add('name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -61,6 +68,10 @@ class _$UserModelSerializer implements StructuredSerializer<UserModel> {
           result.lastSessionTime = serializers.deserialize(value,
               specifiedType: const FullType(DateTime))! as DateTime;
           break;
+        case 'name':
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
       }
     }
 
@@ -77,6 +88,8 @@ class _$UserModel extends UserModel {
   final DateTime createdTime;
   @override
   final DateTime lastSessionTime;
+  @override
+  final String? name;
 
   factory _$UserModel([void Function(UserModelBuilder)? updates]) =>
       (new UserModelBuilder()..update(updates))._build();
@@ -85,7 +98,8 @@ class _$UserModel extends UserModel {
       {required this.uid,
       required this.email,
       required this.createdTime,
-      required this.lastSessionTime})
+      required this.lastSessionTime,
+      this.name})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(uid, r'UserModel', 'uid');
     BuiltValueNullFieldError.checkNotNull(email, r'UserModel', 'email');
@@ -109,7 +123,8 @@ class _$UserModel extends UserModel {
         uid == other.uid &&
         email == other.email &&
         createdTime == other.createdTime &&
-        lastSessionTime == other.lastSessionTime;
+        lastSessionTime == other.lastSessionTime &&
+        name == other.name;
   }
 
   @override
@@ -119,6 +134,7 @@ class _$UserModel extends UserModel {
     _$hash = $jc(_$hash, email.hashCode);
     _$hash = $jc(_$hash, createdTime.hashCode);
     _$hash = $jc(_$hash, lastSessionTime.hashCode);
+    _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -129,7 +145,8 @@ class _$UserModel extends UserModel {
           ..add('uid', uid)
           ..add('email', email)
           ..add('createdTime', createdTime)
-          ..add('lastSessionTime', lastSessionTime))
+          ..add('lastSessionTime', lastSessionTime)
+          ..add('name', name))
         .toString();
   }
 }
@@ -154,6 +171,10 @@ class UserModelBuilder implements Builder<UserModel, UserModelBuilder> {
   set lastSessionTime(DateTime? lastSessionTime) =>
       _$this._lastSessionTime = lastSessionTime;
 
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
+
   UserModelBuilder();
 
   UserModelBuilder get _$this {
@@ -163,6 +184,7 @@ class UserModelBuilder implements Builder<UserModel, UserModelBuilder> {
       _email = $v.email;
       _createdTime = $v.createdTime;
       _lastSessionTime = $v.lastSessionTime;
+      _name = $v.name;
       _$v = null;
     }
     return this;
@@ -192,7 +214,8 @@ class UserModelBuilder implements Builder<UserModel, UserModelBuilder> {
             createdTime: BuiltValueNullFieldError.checkNotNull(
                 createdTime, r'UserModel', 'createdTime'),
             lastSessionTime: BuiltValueNullFieldError.checkNotNull(
-                lastSessionTime, r'UserModel', 'lastSessionTime'));
+                lastSessionTime, r'UserModel', 'lastSessionTime'),
+            name: name);
     replace(_$result);
     return _$result;
   }

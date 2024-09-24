@@ -1,6 +1,6 @@
 import 'package:flutter_app/indexes/indexes_packages.dart';
 
-class Validators {
+class FormValidators {
   static String? emailValidator(String? email) =>
       email != null && !EmailValidator.validate(email)
           ? 'Enter a valid email'
@@ -11,7 +11,7 @@ class Validators {
           ? 'Password minimum length 6 charecters'
           : null;
 
-  static String? ConfirmPasswordValidator(
+  static String? confirmPasswordValidator(
           String? password, String? confirmPassword) =>
       confirmPassword != null && password != confirmPassword
           ? 'Passwords do not match'
